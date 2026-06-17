@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh sách sản phẩm - xemohinhtinh</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="products">
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="index.html" aria-label="xemohinhtinh trang chủ">
+        <span class="brand-mark">XM</span>
+        <span>xemohinhtinh</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Mở menu" data-menu-toggle>
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-links" data-nav-links>
+        <a href="index.html" data-nav="home">Trang chủ</a>
+        <a href="products.html" data-nav="products">Sản phẩm</a>
+        <a href="index.html#contact">Liên hệ</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-title">
+      <p class="eyebrow">Danh sách sản phẩm</p>
+      <h1>Xe mô hình 1:64</h1>
+      <p>Các mẫu diecast được nhập theo dữ liệu tham khảo từ SaigonToys, tập trung vào Mini GT, Kaido House, Pop Race, Inno64 và Tomica.</p>
+    </section>
+
+    <section class="catalog-layout">
+      <aside class="filters" aria-label="Bộ lọc sản phẩm">
+        <div class="filter-group">
+          <label for="product-search">Tìm kiếm</label>
+          <input id="product-search" type="search" placeholder="Tên xe, hãng, mã sản phẩm..." data-search-input>
+        </div>
+
+        <div class="filter-group">
+          <label for="category-filter">Danh mục</label>
+          <select id="category-filter" data-category-filter>
+            <option value="all">Tất cả danh mục</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="price-filter">Khoảng giá</label>
+          <select id="price-filter" data-price-filter>
+            <option value="all">Tất cả mức giá</option>
+            <option value="0-400000">Dưới 400.000đ</option>
+            <option value="400000-500000">400.000đ - 500.000đ</option>
+            <option value="500000-600000">500.000đ - 600.000đ</option>
+            <option value="600000-Infinity">Trên 600.000đ</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="sort-filter">Sắp xếp</label>
+          <select id="sort-filter" data-sort-filter>
+            <option value="featured">Nổi bật</option>
+            <option value="price-asc">Giá tăng dần</option>
+            <option value="price-desc">Giá giảm dần</option>
+            <option value="name-asc">Tên A-Z</option>
+          </select>
+        </div>
+
+        <button class="secondary-button full" type="button" data-clear-filters>Xóa bộ lọc</button>
+      </aside>
+
+      <section class="catalog-content">
+        <div class="catalog-summary">
+          <p data-result-count>Đang tải sản phẩm...</p>
+        </div>
+        <div class="product-grid" data-product-list></div>
+        <div class="pagination" data-pagination></div>
+      </section>
+    </section>
+  </main>
+
+  <script src="js/mock-data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
