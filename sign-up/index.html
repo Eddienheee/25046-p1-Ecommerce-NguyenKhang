@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng ký - xemohinhtinh</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="sign-up.css">
+</head>
+<body data-page="sign-up">
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="../home/index.html" aria-label="xemohinhtinh trang chủ">
+        <span class="brand-mark">XM</span>
+        <span>xemohinhtinh</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Mở menu" data-menu-toggle>
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-links" data-nav-links>
+        <a href="../home/index.html" data-nav="home">Trang chủ</a>
+        <a href="../product-list/index.html" data-nav="product-list">Sản phẩm</a>
+        <a href="../home/index.html#contact">Liên hệ</a>
+        <a href="../login/index.html" data-nav="login">Đăng nhập</a>
+        <a href="../sign-up/index.html" data-nav="sign-up">Đăng ký</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="auth-page">
+      <div class="auth-copy">
+        <p class="eyebrow">Tài khoản mới</p>
+        <h1>Đăng ký tài khoản</h1>
+        <p>Nhập họ tên, email, mật khẩu và nhập lại mật khẩu. Dữ liệu sẽ được kiểm tra và lưu bằng localStorage.</p>
+      </div>
+
+      <form class="auth-form" data-signup-form novalidate>
+        <div class="form-field">
+          <label for="fullName">Họ và tên</label>
+          <input id="fullName" name="fullName" type="text" autocomplete="name" required>
+        </div>
+
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required>
+        </div>
+
+        <div class="form-field">
+          <label for="password">Mật khẩu</label>
+          <input id="password" name="password" type="password" autocomplete="new-password" required>
+        </div>
+
+        <div class="form-field">
+          <label for="confirmPassword">Nhập lại mật khẩu</label>
+          <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" required>
+        </div>
+
+        <button class="primary-button full" type="submit">Đăng ký</button>
+        <p class="form-message" data-signup-message></p>
+        <p class="auth-note">Đã có tài khoản? <a href="../login/index.html">Đăng nhập</a></p>
+      </form>
+    </section>
+  </main>
+
+  <script src="../js/mock-data.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="sign-up.js"></script>
+</body>
+</html>
