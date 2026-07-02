@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thanh toán - xemohinhtinh</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="checkout.css">
+</head>
+<body data-page="checkout">
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="../home/index.html" aria-label="xemohinhtinh trang chủ">
+        <span class="brand-mark">XM</span>
+        <span>xemohinhtinh</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Mở menu" data-menu-toggle>
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-links" data-nav-links>
+        <a href="../home/index.html" data-nav="home">Trang chủ</a>
+        <a href="../product-list/index.html" data-nav="product-list">Sản phẩm</a>
+        <a href="../home/index.html#contact">Liên hệ</a>
+        <a href="../cart/index.html" data-nav="cart">Giỏ hàng <span class="cart-count" data-cart-count hidden>0</span></a>
+        <a class="auth-guest" href="../login/index.html" data-nav="login">Đăng nhập</a>
+        <a class="auth-guest" href="../sign-up/index.html" data-nav="sign-up">Đăng ký</a>
+        <div class="auth-menu auth-user" data-user-menu>
+          <button class="user-icon-button" type="button" aria-label="Tài khoản của tôi" aria-expanded="false" data-user-menu-toggle>
+            <span class="user-icon-shape" aria-hidden="true"></span>
+          </button>
+          <div class="user-dropdown" data-user-dropdown>
+            <p class="user-menu-title">Tài khoản của tôi</p>
+            <p class="user-menu-name" data-user-name></p>
+            <p class="user-menu-email" data-user-email></p>
+            <a href="../cart/index.html">Giỏ hàng</a>
+            <button class="dropdown-button" type="button" data-logout>Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-title">
+      <p class="eyebrow">Thanh toán</p>
+      <h1>Hoàn tất đơn hàng</h1>
+      <p>Nhập thông tin giao hàng và kiểm tra lại danh sách sản phẩm trước khi xác nhận.</p>
+    </section>
+
+    <section class="checkout-layout" data-checkout-page>
+      <form class="checkout-form" data-checkout-form novalidate>
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Thông tin giao hàng</p>
+            <h2>Người nhận</h2>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="checkoutFullName">Họ tên</label>
+            <input id="checkoutFullName" name="fullName" type="text" autocomplete="name" data-checkout-name required>
+          </div>
+
+          <div class="form-field">
+            <label for="checkoutPhone">Số điện thoại</label>
+            <input id="checkoutPhone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="090999999" required>
+          </div>
+
+          <div class="form-field span-full">
+            <label for="checkoutAddress">Địa chỉ giao hàng</label>
+            <textarea id="checkoutAddress" name="address" rows="4" autocomplete="street-address" placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành" required></textarea>
+          </div>
+        </div>
+
+        <button class="primary-button full" type="submit">Xác nhận đơn hàng</button>
+        <p class="form-message" data-checkout-message></p>
+      </form>
+
+      <aside class="summary-card">
+        <h2>Tóm tắt đơn hàng</h2>
+        <div class="mini-order-list" data-checkout-items></div>
+        <div class="summary-lines">
+          <div>
+            <span>Tạm tính</span>
+            <strong data-checkout-subtotal>0đ</strong>
+          </div>
+          <div>
+            <span>Phí giao hàng</span>
+            <strong>Liên hệ</strong>
+          </div>
+          <div class="summary-total">
+            <span>Tổng tiền</span>
+            <strong data-checkout-total>0đ</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script src="../js/mock-data.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="checkout.js"></script>
+</body>
+</html>
