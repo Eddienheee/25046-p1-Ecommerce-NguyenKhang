@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giỏ hàng - xemohinhtinh</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="cart.css">
+</head>
+<body data-page="cart">
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="../home/index.html" aria-label="xemohinhtinh trang chủ">
+        <span class="brand-mark">XM</span>
+        <span>xemohinhtinh</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Mở menu" data-menu-toggle>
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-links" data-nav-links>
+        <a href="../home/index.html" data-nav="home">Trang chủ</a>
+        <a href="../product-list/index.html" data-nav="product-list">Sản phẩm</a>
+        <a href="../home/index.html#contact">Liên hệ</a>
+        <a href="../cart/index.html" data-nav="cart">Giỏ hàng <span class="cart-count" data-cart-count hidden>0</span></a>
+        <a class="auth-guest" href="../login/index.html" data-nav="login">Đăng nhập</a>
+        <a class="auth-guest" href="../sign-up/index.html" data-nav="sign-up">Đăng ký</a>
+        <div class="auth-menu auth-user" data-user-menu>
+          <button class="user-icon-button" type="button" aria-label="Tài khoản của tôi" aria-expanded="false" data-user-menu-toggle>
+            <span class="user-icon-shape" aria-hidden="true"></span>
+          </button>
+          <div class="user-dropdown" data-user-dropdown>
+            <p class="user-menu-title">Tài khoản của tôi</p>
+            <p class="user-menu-name" data-user-name></p>
+            <p class="user-menu-email" data-user-email></p>
+            <a href="../cart/index.html">Giỏ hàng</a>
+            <button class="dropdown-button" type="button" data-logout>Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-title">
+      <p class="eyebrow">Giỏ hàng</p>
+      <h1>Kiểm tra sản phẩm đã chọn</h1>
+      <p>Thay đổi số lượng hoặc xóa sản phẩm trước khi chuyển sang bước thanh toán.</p>
+    </section>
+
+    <section class="cart-layout" data-cart-page>
+      <div class="cart-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Sản phẩm</p>
+            <h2>Giỏ hàng của bạn</h2>
+          </div>
+          <a href="../product-list/index.html">Mua thêm</a>
+        </div>
+        <div class="cart-list" data-cart-list></div>
+      </div>
+
+      <aside class="summary-card">
+        <h2>Tổng đơn hàng</h2>
+        <div class="summary-lines">
+          <div>
+            <span>Tạm tính</span>
+            <strong data-cart-subtotal>0đ</strong>
+          </div>
+          <div>
+            <span>Phí giao hàng</span>
+            <strong>Liên hệ</strong>
+          </div>
+          <div class="summary-total">
+            <span>Tổng tiền</span>
+            <strong data-cart-total>0đ</strong>
+          </div>
+        </div>
+        <a class="primary-button full" href="../checkout/index.html" data-checkout-link>Thanh toán</a>
+      </aside>
+    </section>
+  </main>
+
+  <script src="../js/mock-data.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="cart.js"></script>
+</body>
+</html>
