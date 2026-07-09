@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xác nhận đơn hàng - xemohinhtinh</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="order-confirmation.css">
+</head>
+<body data-page="order-confirmation">
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="../home/index.html" aria-label="xemohinhtinh trang chủ">
+        <span class="brand-mark">XM</span>
+        <span>xemohinhtinh</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Mở menu" data-menu-toggle>
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-links" data-nav-links>
+        <a href="../home/index.html" data-nav="home">Trang chủ</a>
+        <a href="../product-list/index.html" data-nav="product-list">Sản phẩm</a>
+        <a href="../home/index.html#contact">Liên hệ</a>
+        <a class="auth-user" href="../cart/index.html" data-nav="cart">Giỏ hàng <span class="cart-count" data-cart-count hidden>0</span></a>
+        <a class="auth-guest" href="../login/index.html" data-nav="login">Đăng nhập</a>
+        <a class="auth-guest" href="../sign-up/index.html" data-nav="sign-up">Đăng ký</a>
+        <div class="auth-menu auth-user" data-user-menu>
+          <button class="user-icon-button" type="button" aria-label="Tài khoản của tôi" aria-expanded="false" data-user-menu-toggle>
+            <span class="user-icon-shape" aria-hidden="true"></span>
+          </button>
+          <div class="user-dropdown" data-user-dropdown>
+            <p class="user-menu-title">Tài khoản của tôi</p>
+            <p class="user-menu-name" data-user-name></p>
+            <p class="user-menu-email" data-user-email></p>
+            <a href="../my-account/index.html">Tài khoản của tôi</a>
+            <a href="../cart/index.html">Giỏ hàng</a>
+            <button class="dropdown-button" type="button" data-logout>Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-title">
+      <p class="eyebrow">Xác nhận đơn hàng</p>
+      <h1>Đơn hàng đã được ghi nhận</h1>
+      <p>Thông tin đơn hàng được lưu trong tài khoản của bạn để tiện theo dõi lại sau.</p>
+    </section>
+
+    <section class="order-confirmation-layout" data-order-confirmation-page></section>
+  </main>
+
+  <script src="../js/mock-data.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="order-confirmation.js"></script>
+</body>
+</html>
