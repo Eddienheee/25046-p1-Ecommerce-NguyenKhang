@@ -17,7 +17,9 @@
     signUp: "../sign-up/index.html",
     login: "../login/index.html",
     cart: "../cart/index.html",
-    checkout: "../checkout/index.html"
+    checkout: "../checkout/index.html",
+    orderConfirmation: "../order-confirmation/index.html",
+    myAccount: "../my-account/index.html"
   };
 
   const state = {
@@ -58,6 +60,14 @@
 
     if (page === "checkout") {
       setupCheckout();
+    }
+
+    if (page === "order-confirmation") {
+      setupOrderConfirmation();
+    }
+
+    if (page === "my-account") {
+      setupMyAccount();
     }
 
     if (page === "sign-up") {
@@ -105,8 +115,16 @@
     const toggle = document.querySelector("[data-menu-toggle]");
     const navLinks = document.querySelector("[data-nav-links]");
     const page = document.body.dataset.page;
-    const activePage = page === "product-detail" ? "product-list" : page === "checkout" ? "cart" : page;
+    let activePage = page;
     const currentUser = readStorage(STORAGE_KEYS.currentUser, null);
+
+    if (page === "product-detail") {
+      activePage = "product-list";
+    }
+
+    if (page === "checkout" || page === "order-confirmation") {
+      activePage = "cart";
+    }
 
     document.querySelectorAll("[data-nav]").forEach((link) => {
       if (link.dataset.nav === activePage) {
@@ -576,12 +594,6 @@
     const checkoutPage = document.querySelector("[data-checkout-page]");
     if (!currentUser || !checkoutPage) return;
 
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("success") === "1") {
-      renderOrderSuccess(params.get("order"));
-      return;
-    }
-
     const lines = getCartLines(currentUser);
     if (!lines.length) {
       checkoutPage.innerHTML = [
@@ -652,7 +664,7 @@
 
       showFormMessage(message, "Đã ghi nhận đơn hàng. Đang chuyển đến màn hình xác nhận...", "success");
       window.setTimeout(() => {
-        window.location.href = ROUTES.checkout + "?success=1&order=" + encodeURIComponent(order.id);
+        window.location.href = ROUTES.orderConfirmation + "?order=" + encodeURIComponent(order.id);
       }, 800);
     });
   }
@@ -687,18 +699,25 @@
     };
   }
 
-  function renderOrderSuccess(orderId) {
-    const checkoutPage = document.querySelector("[data-checkout-page]");
-    if (!checkoutPage) return;
+  function setupOrderConfirmation() {
+    const currentUser = requireLogin("orderConfirmation");
+    const confirmationPage = document.querySelector("[data-order-confirmation-page]");
+    if (!currentUser || !confirmationPage) return;
 
-    const orders = readStorage(STORAGE_KEYS.orders, []);
+    const params = new URLSearchParams(window.location.search);
+    renderOrderConfirmation(confirmationPage, currentUser, params.get("order"));
+  }
+
+  function renderOrderConfirmation(container, currentUser, orderId) {
+    const orders = getUserOrders(currentUser);
     const fallbackId = readStorage(STORAGE_KEYS.lastOrder, "");
     const order = orders.find((item) => item.id === orderId) || orders.find((item) => item.id === fallbackId);
 
     if (!order) {
-      checkoutPage.innerHTML = [
+      container.innerHTML = [
         '<div class="empty-state">',
-        "  <strong>Không tìm thấy đơn hàng vừa tạo.</strong>",
+        "  <strong>Không tìm thấy đơn hàng cần xem.</strong>",
+        "  <p>Đơn hàng có thể không thuộc tài khoản hiện tại hoặc đã bị xóa khỏi localStorage.</p>",
         '  <a class="primary-button" href="' + ROUTES.productList + '">Tiếp tục mua hàng</a>',
         "</div>"
       ].join("");
@@ -706,30 +725,24 @@
     }
 
     document.title = "Xác nhận đơn hàng - xemohinhtinh";
-    const pageTitle = document.querySelector(".page-title");
-    if (pageTitle) {
-      pageTitle.innerHTML = [
-        '<p class="eyebrow">Xác nhận đơn hàng</p>',
-        "<h1>Đơn hàng đã được ghi nhận</h1>",
-        "<p>Thông tin đơn hàng được lưu trong tài khoản và giỏ hàng đã được làm trống.</p>"
-      ].join("");
-    }
-
-    checkoutPage.innerHTML = [
+    container.innerHTML = [
       '<section class="order-success-card">',
       '  <div class="success-mark">✓</div>',
       "  <p class=\"eyebrow\">Xác nhận đơn hàng</p>",
       "  <h1>Đặt hàng thành công</h1>",
       "  <p>Đơn hàng " + escapeHtml(order.id) + " đã được ghi nhận vào tài khoản của bạn.</p>",
       '  <div class="order-info-grid">',
+      '    <div><span>Mã đơn hàng</span><strong>' + escapeHtml(order.id) + "</strong></div>",
+      '    <div><span>Ngày đặt</span><strong>' + escapeHtml(formatDate(order.createdAt)) + "</strong></div>",
       '    <div><span>Người nhận</span><strong>' + escapeHtml(order.customer.fullName) + "</strong></div>",
       '    <div><span>Số điện thoại</span><strong>' + escapeHtml(order.customer.phone) + "</strong></div>",
       '    <div><span>Địa chỉ</span><strong>' + escapeHtml(order.customer.address) + "</strong></div>",
+      '    <div><span>Trạng thái</span><strong>' + escapeHtml(order.status) + "</strong></div>",
       '    <div><span>Tổng tiền</span><strong>' + formatCurrency(order.total) + "</strong></div>",
       "  </div>",
       '  <div class="success-actions">',
       '    <a class="primary-button" href="' + ROUTES.productList + '">Tiếp tục mua hàng</a>',
-      '    <a class="secondary-button light" href="' + ROUTES.home + '">Về trang chủ</a>',
+      '    <a class="secondary-button light" href="' + ROUTES.myAccount + '">Xem lịch sử đơn hàng</a>',
       "  </div>",
       "</section>",
       '<aside class="summary-card">',
@@ -748,6 +761,88 @@
       "  </div>",
       "</aside>"
     ].join("");
+  }
+
+  function setupMyAccount() {
+    const currentUser = requireLogin("myAccount");
+    const accountPage = document.querySelector("[data-my-account-page]");
+    if (!currentUser || !accountPage) return;
+
+    renderMyAccount(accountPage, currentUser);
+  }
+
+  function renderMyAccount(container, currentUser) {
+    const orders = getUserOrders(currentUser);
+    const totalSpent = orders.reduce((sum, order) => sum + Number(order.total || 0), 0);
+
+    container.innerHTML = [
+      '<aside class="account-profile-card">',
+      '  <div class="account-avatar">XM</div>',
+      '  <p class="eyebrow">Thông tin cá nhân</p>',
+      "  <h2>" + escapeHtml(currentUser.fullName) + "</h2>",
+      '  <dl class="account-detail-list">',
+      '    <div><dt>Email</dt><dd>' + escapeHtml(currentUser.email) + "</dd></div>",
+      '    <div><dt>Mã tài khoản</dt><dd>#' + escapeHtml(currentUser.id) + "</dd></div>",
+      '    <div><dt>Số đơn hàng</dt><dd>' + orders.length + " đơn</dd></div>",
+      '    <div><dt>Tổng đã đặt</dt><dd>' + formatCurrency(totalSpent) + "</dd></div>",
+      "  </dl>",
+      '  <a class="primary-button full" href="' + ROUTES.productList + '">Tiếp tục mua sắm</a>',
+      "</aside>",
+      '<section class="orders-panel">',
+      '  <div class="panel-heading">',
+      "    <div>",
+      '      <p class="eyebrow">Lịch sử đặt hàng</p>',
+      "      <h2>Đơn hàng của bạn</h2>",
+      "    </div>",
+      "  </div>",
+      '  <div class="order-history-list">',
+      orders.length ? orders.map(createOrderHistoryCard).join("") : [
+        '<div class="empty-state">',
+        "  <strong>Bạn chưa có đơn hàng nào.</strong>",
+        "  <p>Các đơn hàng sau khi thanh toán sẽ xuất hiện tại đây.</p>",
+        '  <a class="primary-button" href="' + ROUTES.productList + '">Xem sản phẩm</a>',
+        "</div>"
+      ].join(""),
+      "  </div>",
+      "</section>"
+    ].join("");
+  }
+
+  function createOrderHistoryCard(order) {
+    return [
+      '<article class="history-order-card">',
+      '  <div class="history-order-header">',
+      "    <div>",
+      "      <h3>" + escapeHtml(order.id) + "</h3>",
+      '      <p>Ngày đặt: ' + escapeHtml(formatDate(order.createdAt)) + "</p>",
+      "    </div>",
+      '    <span class="order-status">' + escapeHtml(order.status) + "</span>",
+      "  </div>",
+      '  <div class="history-order-meta">',
+      "    <div><span>Người nhận</span><strong>" + escapeHtml(order.customer.fullName) + "</strong></div>",
+      "    <div><span>Số điện thoại</span><strong>" + escapeHtml(order.customer.phone) + "</strong></div>",
+      "    <div><span>Tổng tiền</span><strong>" + formatCurrency(order.total) + "</strong></div>",
+      "  </div>",
+      '  <div class="history-order-items">',
+      order.items.map((item) => [
+        '<div class="history-order-item">',
+        '  <img src="' + escapeHtml(item.image) + '" alt="' + escapeHtml(item.name) + '">',
+        "  <div>",
+        "    <strong>" + escapeHtml(item.name) + "</strong>",
+        "    <span>" + item.quantity + " x " + formatCurrency(item.price) + "</span>",
+        "  </div>",
+        "</div>"
+      ].join("")).join(""),
+      "  </div>",
+      '  <a class="detail-button compact" href="' + ROUTES.orderConfirmation + "?order=" + encodeURIComponent(order.id) + '">Xem chi tiết</a>',
+      "</article>"
+    ].join("");
+  }
+
+  function getUserOrders(currentUser) {
+    return readStorage(STORAGE_KEYS.orders, [])
+      .filter((order) => String(order.userId) === String(currentUser.id))
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   }
 
   function requireLogin(redirectPage) {
@@ -933,6 +1028,8 @@
     const routes = {
       cart: ROUTES.cart,
       checkout: ROUTES.checkout,
+      orderConfirmation: ROUTES.orderConfirmation,
+      myAccount: ROUTES.myAccount,
       home: ROUTES.home,
       productList: ROUTES.productList
     };
@@ -981,6 +1078,19 @@
       style: "currency",
       currency: "VND"
     }).format(value);
+  }
+
+  function formatDate(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "Chưa có ngày";
+
+    return new Intl.DateTimeFormat("vi-VN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    }).format(date);
   }
 
   function normalizeText(value) {
